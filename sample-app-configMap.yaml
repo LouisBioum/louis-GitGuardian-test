@@ -1,0 +1,55 @@
+apiVersion: v1
+data:
+  flaskapi.py: |-
+    #!/bin/python
+
+    import os
+
+    from flask import Flask
+
+    import time
+    import locale
+
+    locale.setlocale(locale.LC_ALL, '')
+
+    from kubernetes import client, config
+
+    app = Flask(__name__)
+
+    def get_pod_start_time(namespace, app_name):
+        """
+        find namespace pod
+        """
+        config.load_incluster_config()
+        k8s_api_obj = client.CoreV1Api()
+        api_response = k8s_api_obj.list_namespaced_pod(namespace, label_selector="app=" + app_name, limit=56)
+        return api_response.items[0].status.start_time.strftime("%I:%M%p")
+
+    @app.route('/')
+    def index():
+        return "Hello GitGuardian!"
+
+    @app.route('/pod-id')
+    def pod_id():
+        return os.environ['POD_NAME']
+
+    @app.route('/startup-time')
+    def pod_start_time():
+        return get_pod_start_time('default', 'sample-app')
+
+    app.run(host="0.0.0.0", port=8080)
+  start.sh: |
+    #!/bin/bash
+    pip install kubernetes
+    pip install -r requirements.txt
+    python3 /scripts/flaskapi.py
+kind: ConfigMap
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","data":{"flaskapi.py":"#!/bin/python\n\nimport os\n\nfrom flask import Flask\n\nimport time\nimport locale\n\nlocale.setlocale(locale.LC_ALL, '')\n\nfrom kubernetes import client, config\n\napp = Flask(__name__)\n\ndef get_pod_start_time(namespace, app_name):\n    \"\"\"\n    find namespace pod\n    \"\"\"\n    config.load_incluster_config()\n    k8s_api_obj = client.CoreV1Api()\n    api_response = k8s_api_obj.list_namespaced_pod(namespace, label_selector=\"app=\" + app_name, limit=56)\n    return api_response.items[0].status.start_time.strftime(\"%I:%M%p\")\n\n@app.route('/')\ndef index():\n    return \"Hello GitGuardian!\"\n\n@app.route('/pod-id')\ndef pod_id():\n    return os.environ['POD_NAME']\n\n@app.route('/startup-time')\ndef pod_start_time():\n    return get_pod_start_time('default', 'sample-app')\n\napp.run(host=\"0.0.0.0\", port=8080)","start.sh":"#!/bin/bash\npip install kubernetes\npip install -r requirements.txt\npython3 /scripts/flaskapi.py\n"},"kind":"ConfigMap","metadata":{"annotations":{},"creationTimestamp":null,"name":"sample-app-configmap","namespace":"default"}}
+  creationTimestamp: "2022-11-15T10:30:32Z"
+  name: sample-app-configmap
+  namespace: default
+  resourceVersion: "34996"
+  uid: 1a173c95-2089-4f91-ae5d-a2e0c5ec3047
