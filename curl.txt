@@ -1,0 +1,37 @@
+Command 1:
+curl -i http://127.0.0.1:56660/
+
+Response 1:
+HTTP/1.0 200 OK
+Content-Type: text/html; charset=utf-8
+Content-Length: 18
+Server: Werkzeug/1.0.1 Python/3.6.7
+Date: Tue, 15 Nov 2022 10:31:52 GMT
+
+Hello GitGuardian!
+
+
+Command 2:
+curl -i http://127.0.0.1:56660/pod-id
+
+Response 2:
+HTTP/1.0 200 OK
+Content-Type: text/html; charset=utf-8
+Content-Length: 27
+Server: Werkzeug/1.0.1 Python/3.6.7
+Date: Tue, 15 Nov 2022 10:32:09 GMT
+
+sample-app-5684b4b855-8nvln
+
+
+Command 3 (extra point 1):
+curl -i http://127.0.0.1:56660/startup-time
+
+Response 3:
+HTTP/1.0 200 OK
+Content-Type: text/html; charset=utf-8
+Content-Length: 7
+Server: Werkzeug/1.0.1 Python/3.6.7
+Date: Tue, 15 Nov 2022 10:32:25 GMT
+
+10:30AM
