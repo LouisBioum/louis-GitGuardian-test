@@ -7,14 +7,14 @@ Kubernetes client v1.25.4
 Kubernetes server v1.25.3
 
 
-2) I have added a startup shell Bash script and a Python script to a ConfigMap created via the following command:
+2) I have added a startup Shell Script and a Python Script to a ConfigMap created via the following command:
  k create cm sample-app-configmap --from-file scripts/ --dry-run=client -o yaml | k apply -f -
  I have the defined alias k='kubectl' in my ~/.zshrc
- I have gerated the yaml for the ConfigMap with the following command:
+ I have generated the yaml for the ConfigMap with the following command:
  k get configmap sample-app-configmap -o yaml > sample-app-configMap.yaml
  
  
-4) In order to expose the service from tge minikube node to my browser, I used the following command:
+4) In order to expose the service from the minikube node to my browser, I used the following command:
 minikube service sample-app --url
 
 
@@ -23,7 +23,7 @@ Questions:
 
 2) In order to monitor the application, I would rely on centralize solutions like Kibana, Prometheus or influxDB coupled with Grafana so that I can analize the state over long periods of time and I can easily run ad-hoc queries when needed.
 
-3) to add a PostgreSQL container, I would make sure to use a StatefulSet instead of relying on ReplicaSets because they work better when it comes to persistency, and data consistency. It is necessary for pods to maintain a stable identify in order to maitain those properties.
+3) to add a PostgreSQL container, I would make sure to use a StatefulSet instead of relying on ReplicaSets because they work better when it comes to persistency, and data consistency. It is necessary for pods to maintain a stable identify in order to retain those properties.
 
 4) Feedback:
 
@@ -31,4 +31,4 @@ a) Taking this test took much longer than I expected. It did not seem so at firs
 
 b) I would rate this test a 7. I don't find it particularly hard. However, unless one is already comfortable with all the topics, it seems quite long (as mentioned above).
 
-c) I definitely found the test interresting. I really enjoyed going through it. It was sometimes challenging for me because I was not familiar with all the concepts but it was equally rewarding when I was making progress. I am actually planning to complete the last question as soon as I have more time to dedicate to it. It was really fun to go through it.
+c) I definitely found the test interesting. I really enjoyed going through it. It was sometimes challenging for me because I was not familiar with all the concepts but it was equally rewarding when I was making progress. I am actually planning to complete the last question as soon as I have more time to dedicate to it. It was really fun to go through it.
